@@ -1,14 +1,19 @@
 apply plugin: 'org.springframework.boot'
 apply plugin: 'com.bmuschko.docker-spring-boot-application'
 
-dependencies { 
- 
+group = 'com.skblab.approverservice'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+dependencies {
+  runtimeClasspath 'org.springframework.boot:spring-boot-devtools'
 }
+
 
 docker {
   springBootApplication {
     baseImage = 'adoptopenjdk/openjdk8'
-//    ports = [4000, 9095]
-//    tag = "reactive-pacman-metrics-server:${project.version}"
+    ports = [8003, 8003]
+    tag = "approver-service:${project.version}"
   }
 }

@@ -1,67 +1,102 @@
 plugins {
-	id 'org.springframework.boot' version '2.1.7.RELEASE'
+	id 'org.springframework.boot' version '2.1.7.RELEASE' apply false
 	id 'com.bmuschko.docker-spring-boot-application' version '4.6.2' apply false
 	id 'com.google.protobuf' version '0.8.10' apply false
 }
 
-subprojects {
+apply plugin: 'base'
 
+subprojects {
 	apply plugin: 'io.spring.dependency-management'
 	apply plugin: 'java'
 	apply plugin: 'idea'
 
-	group = 'com.skblab.verifier'
-	version = '0.0.1-SNAPSHOT'
-	sourceCompatibility = '1.8'
-
-	configurations {
-		developmentOnly
-		runtimeClasspath {
-			extendsFrom developmentOnly
-		}
-	}
-
 	repositories {
+		jcenter()
 		mavenCentral()
+		maven { url 'https://jitpack.io' }
 	}
 
-	ext {
-		set('springCloudVersion', "Greenwich.SR2")
-	}
-
-	dependencyManagement {
-		imports {
-			mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-			mavenBom 'com.google.protobuf:protobuf-bom:3.9.0'
+	dependencies {
+		[enforcedPlatform('org.springframework.boot:spring-boot-dependencies:2.1.7.RELEASE'),
+		 platform('org.junit:junit-bom:5.4.0'),
+		].each {
+			implementation it
+			annotationProcessor it
+			testAnnotationProcessor it
 		}
 
-		dependencies {
-
-			dependencySet (group: 'io.grpc', version: '1.21.0') {
-				entry 'grpc-stub'
-				entry 'grpc-netty'
-				entry 'grpc-okhttp'
-				entry 'grpc-protobuf'
-				entry 'protoc-gen-grpc-java'
+		constraints {
+			['org.projectlombok:lombok:1.18.2'].each {
+				compileOnly it
+				annotationProcessor it
+				testAnnotationProcessor it
 			}
 
-			dependency group: 'com.google.protobuf', name: 'protoc', version: '3.9.0'
+			['com.github.javafaker:javafaker:0.16',
+			 'io.dropwizard.metrics:metrics-core:+',
+			 'org.beryx:text-io:3.3.0',
+			 'org.beryx:text-io-web:3.3.0',
+			 'org.fusesource.jansi:jansi:1.17.1',
+			 'org.codehaus.groovy:groovy-all:2.5.6',
+			 'com.google.guava:guava:27.1-jre',
+			 'com.github.CollaborationInEncapsulation.spring-boot-rsocket:spring-boot-starter-rsocket:0.0.1.RELEASE',
+			 'io.rsocket:rsocket-transport-netty:0.11.14',
+			].each {
+				implementation it
+			}
 
-			dependency group: 'org.jctools', name: 'jctools-core', version: '2.1.2'
-			dependency group: 'com.salesforce.servicelibs', name: 'reactor-grpc-stub', version: '0.10.0'
-
-			dependency group:'io.github.lognet', name: 'grpc-spring-boot-starter', version: '3.3.0'
-
-//			implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-//			implementation 'org.springframework.boot:spring-boot-starter-data-rest'
-//			implementation 'org.springframework.boot:spring-boot-starter-webflux'
-//	implementation 'org.springframework.cloud:spring-cloud-starter-consul-config'
-//	implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
-//			developmentOnly 'org.springframework.boot:spring-boot-devtools'
-//			runtimeOnly 'com.h2database:h2'
-//			testImplementation 'org.springframework.boot:spring-boot-starter-test'
-//			testImplementation 'io.projectreactor:reactor-test'
+			['org.mockito:mockito-core:2.22.0',
+			 'org.mockito:mockito-junit-jupiter:2.22.0',
+			 'io.github.benas:random-beans:3.7.0',
+			].each {
+				testImplementation it
+			}
 		}
+
+		//declare dependencies
+		['org.projectlombok:lombok',
+		 'org.springframework.boot:spring-boot-configuration-processor',
+		].each {
+			compileOnly it
+			testCompileOnly it
+			annotationProcessor it
+			testAnnotationProcessor it
+		}
+
+
+		implementation 'io.grpc:grpc-stub:1.21.0'
+		implementation 'io.grpc:grpc-netty:1.21.0'
+		implementation 'io.grpc:grpc-okhttp:1.21.0'
+		implementation 'io.grpc:grpc-protobuf:1.21.0'
+		implementation 'io.grpc:protoc-gen-grpc-java:1.21.0'
+		implementation 'com.google.protobuf:protoc:3.9.0'
+		implementation 'com.salesforce.servicelibs:reactor-grpc-stub:0.10.0'
+		implementation 'io.github.lognet:grpc-spring-boot-starter:3.3.0'
+
+		implementation 'org.springframework.boot:spring-boot-starter-webflux',
+				'org.springframework.boot:spring-boot-starter-actuator',
+				'io.rsocket:rsocket-transport-netty',
+				'com.google.guava:guava',
+				'io.dropwizard.metrics:metrics-core',
+				'org.beryx:text-io',
+				'org.beryx:text-io-web',
+				'org.fusesource.jansi:jansi'
+
+		testImplementation 'org.mockito:mockito-core',
+				'org.mockito:mockito-junit-jupiter',
+				'org.junit.jupiter:junit-jupiter-engine',
+				'org.springframework.boot:spring-boot-starter-test'
 	}
 
+	test {
+		useJUnitPlatform()
+		testLogging {
+			exceptionFormat = 'full'
+			events 'passed', 'skipped', 'failed'
+		}
+		reports {
+			html.enabled = true
+		}
+	}
 }

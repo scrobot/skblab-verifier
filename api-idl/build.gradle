@@ -1,14 +1,57 @@
-apply plugin: 'org.springframework.boot'
-apply plugin: 'com.bmuschko.docker-spring-boot-application'
-
-dependencies { 
- 
+plugins {
+    id 'com.google.protobuf'
 }
 
-docker {
-  springBootApplication {
-    baseImage = 'adoptopenjdk/openjdk8'
-//    ports = [4000, 9095]
-//    tag = "reactive-pacman-metrics-server:${project.version}"
-  }
+dependencies {
+    implementation 'com.google.protobuf:protobuf-java'
+    implementation 'com.google.protobuf:protobuf-java-util'
+    implementation 'io.grpc:grpc-protobuf'
+	implementation "com.salesforce.servicelibs:reactor-grpc-stub"
+}
+
+sourceSets {
+    main {
+        proto { srcDir 'src/main/proto' }
+    }
+}
+
+protobuf {
+	generatedFilesBaseDir = "${projectDir}/src/generated"
+
+	protoc {
+		artifact = 'com.google.protobuf:protoc:3.0.0'
+	}
+
+	plugins {
+		grpc {
+			artifact = "io.grpc:protoc-gen-grpc-java:1.22.1"
+		}
+		reactorGRpc {
+			artifact = "com.salesforce.servicelibs:reactor-grpc:0.10.0-RC1:jdk8@jar"
+		}
+	}
+
+	generateProtoTasks {
+		ofSourceSet('main')*.plugins {
+			grpc {}
+			reactorGRpc {}
+		}
+	}
+}
+
+idea {
+    module {
+        sourceDirs += file("src/main/proto")
+        sourceDirs += file("src/generated/main/java")
+        sourceDirs += file("src/generated/main/grpc")
+        sourceDirs += file("src/generated/main/reactorGRpc")
+
+        generatedSourceDirs += file('src/generated/main/java')
+        generatedSourceDirs += file("src/generated/main/grpc")
+        generatedSourceDirs += file("src/generated/main/reactorGRpc")
+    }
+}
+
+clean {
+    delete protobuf.generatedFilesBaseDir
 }
