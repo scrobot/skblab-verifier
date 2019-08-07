@@ -39,9 +39,7 @@ subprojects {
 			 'org.beryx:text-io-web:3.3.0',
 			 'org.fusesource.jansi:jansi:1.17.1',
 			 'org.codehaus.groovy:groovy-all:2.5.6',
-			 'com.google.guava:guava:27.1-jre',
-			 'com.github.CollaborationInEncapsulation.spring-boot-rsocket:spring-boot-starter-rsocket:0.0.1.RELEASE',
-			 'io.rsocket:rsocket-transport-netty:0.11.14',
+			 'com.google.guava:guava:27.1-jre'
 			].each {
 				implementation it
 			}
@@ -64,19 +62,21 @@ subprojects {
 			testAnnotationProcessor it
 		}
 
+		// declare gRPC dependencies
+		['io.grpc:grpc-stub:1.21.0',
+		'io.grpc:grpc-netty:1.21.0',
+		'io.grpc:grpc-okhttp:1.21.0',
+		'io.grpc:grpc-protobuf:1.21.0',
+		'io.grpc:protoc-gen-grpc-java:1.21.0',
+		'com.google.protobuf:protoc:3.9.0',
+		'com.salesforce.servicelibs:reactor-grpc-stub:0.10.0',
+		'io.github.lognet:grpc-spring-boot-starter:3.3.0'].each {
+			implementation it
+		}
 
-		implementation 'io.grpc:grpc-stub:1.21.0'
-		implementation 'io.grpc:grpc-netty:1.21.0'
-		implementation 'io.grpc:grpc-okhttp:1.21.0'
-		implementation 'io.grpc:grpc-protobuf:1.21.0'
-		implementation 'io.grpc:protoc-gen-grpc-java:1.21.0'
-		implementation 'com.google.protobuf:protoc:3.9.0'
-		implementation 'com.salesforce.servicelibs:reactor-grpc-stub:0.10.0'
-		implementation 'io.github.lognet:grpc-spring-boot-starter:3.3.0'
-
+		// declare spring boot starters
 		implementation 'org.springframework.boot:spring-boot-starter-webflux',
 				'org.springframework.boot:spring-boot-starter-actuator',
-				'io.rsocket:rsocket-transport-netty',
 				'com.google.guava:guava',
 				'io.dropwizard.metrics:metrics-core',
 				'org.beryx:text-io',

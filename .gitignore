@@ -33,4 +33,4 @@ out/
 
 ### gRPC ###
 
-api-idl/generated/
+generated/
