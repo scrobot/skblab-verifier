@@ -16,6 +16,7 @@ public  final class MetricEvent extends
   }
   private MetricEvent() {
     timestamp_ = 0L;
+    microservice_ = "";
     key_ = "";
     value_ = "";
   }
@@ -53,10 +54,16 @@ public  final class MetricEvent extends
           case 18: {
             java.lang.String s = input.readStringRequireUtf8();
 
-            key_ = s;
+            microservice_ = s;
             break;
           }
           case 26: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            key_ = s;
+            break;
+          }
+          case 34: {
             java.lang.String s = input.readStringRequireUtf8();
 
             value_ = s;
@@ -94,10 +101,44 @@ public  final class MetricEvent extends
     return timestamp_;
   }
 
-  public static final int KEY_FIELD_NUMBER = 2;
+  public static final int MICROSERVICE_FIELD_NUMBER = 2;
+  private volatile java.lang.Object microservice_;
+  /**
+   * <code>optional string microservice = 2;</code>
+   */
+  public java.lang.String getMicroservice() {
+    java.lang.Object ref = microservice_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      microservice_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>optional string microservice = 2;</code>
+   */
+  public com.google.protobuf.ByteString
+      getMicroserviceBytes() {
+    java.lang.Object ref = microservice_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      microservice_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
+  public static final int KEY_FIELD_NUMBER = 3;
   private volatile java.lang.Object key_;
   /**
-   * <code>optional string key = 2;</code>
+   * <code>optional string key = 3;</code>
    */
   public java.lang.String getKey() {
     java.lang.Object ref = key_;
@@ -112,7 +153,7 @@ public  final class MetricEvent extends
     }
   }
   /**
-   * <code>optional string key = 2;</code>
+   * <code>optional string key = 3;</code>
    */
   public com.google.protobuf.ByteString
       getKeyBytes() {
@@ -128,10 +169,10 @@ public  final class MetricEvent extends
     }
   }
 
-  public static final int VALUE_FIELD_NUMBER = 3;
+  public static final int VALUE_FIELD_NUMBER = 4;
   private volatile java.lang.Object value_;
   /**
-   * <code>optional string value = 3;</code>
+   * <code>optional string value = 4;</code>
    */
   public java.lang.String getValue() {
     java.lang.Object ref = value_;
@@ -146,7 +187,7 @@ public  final class MetricEvent extends
     }
   }
   /**
-   * <code>optional string value = 3;</code>
+   * <code>optional string value = 4;</code>
    */
   public com.google.protobuf.ByteString
       getValueBytes() {
@@ -177,11 +218,14 @@ public  final class MetricEvent extends
     if (timestamp_ != 0L) {
       output.writeInt64(1, timestamp_);
     }
+    if (!getMicroserviceBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, microservice_);
+    }
     if (!getKeyBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, key_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, key_);
     }
     if (!getValueBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, value_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 4, value_);
     }
   }
 
@@ -194,11 +238,14 @@ public  final class MetricEvent extends
       size += com.google.protobuf.CodedOutputStream
         .computeInt64Size(1, timestamp_);
     }
+    if (!getMicroserviceBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, microservice_);
+    }
     if (!getKeyBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, key_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, key_);
     }
     if (!getValueBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, value_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, value_);
     }
     memoizedSize = size;
     return size;
@@ -218,6 +265,8 @@ public  final class MetricEvent extends
     boolean result = true;
     result = result && (getTimestamp()
         == other.getTimestamp());
+    result = result && getMicroservice()
+        .equals(other.getMicroservice());
     result = result && getKey()
         .equals(other.getKey());
     result = result && getValue()
@@ -235,6 +284,8 @@ public  final class MetricEvent extends
     hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
     hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
         getTimestamp());
+    hash = (37 * hash) + MICROSERVICE_FIELD_NUMBER;
+    hash = (53 * hash) + getMicroservice().hashCode();
     hash = (37 * hash) + KEY_FIELD_NUMBER;
     hash = (53 * hash) + getKey().hashCode();
     hash = (37 * hash) + VALUE_FIELD_NUMBER;
@@ -359,6 +410,8 @@ public  final class MetricEvent extends
       super.clear();
       timestamp_ = 0L;
 
+      microservice_ = "";
+
       key_ = "";
 
       value_ = "";
@@ -386,6 +439,7 @@ public  final class MetricEvent extends
     public com.skblab.protoapi.MetricEvent buildPartial() {
       com.skblab.protoapi.MetricEvent result = new com.skblab.protoapi.MetricEvent(this);
       result.timestamp_ = timestamp_;
+      result.microservice_ = microservice_;
       result.key_ = key_;
       result.value_ = value_;
       onBuilt();
@@ -431,6 +485,10 @@ public  final class MetricEvent extends
       if (other == com.skblab.protoapi.MetricEvent.getDefaultInstance()) return this;
       if (other.getTimestamp() != 0L) {
         setTimestamp(other.getTimestamp());
+      }
+      if (!other.getMicroservice().isEmpty()) {
+        microservice_ = other.microservice_;
+        onChanged();
       }
       if (!other.getKey().isEmpty()) {
         key_ = other.key_;
@@ -492,9 +550,78 @@ public  final class MetricEvent extends
       return this;
     }
 
+    private java.lang.Object microservice_ = "";
+    /**
+     * <code>optional string microservice = 2;</code>
+     */
+    public java.lang.String getMicroservice() {
+      java.lang.Object ref = microservice_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        microservice_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>optional string microservice = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getMicroserviceBytes() {
+      java.lang.Object ref = microservice_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        microservice_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>optional string microservice = 2;</code>
+     */
+    public Builder setMicroservice(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      microservice_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string microservice = 2;</code>
+     */
+    public Builder clearMicroservice() {
+      
+      microservice_ = getDefaultInstance().getMicroservice();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string microservice = 2;</code>
+     */
+    public Builder setMicroserviceBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      microservice_ = value;
+      onChanged();
+      return this;
+    }
+
     private java.lang.Object key_ = "";
     /**
-     * <code>optional string key = 2;</code>
+     * <code>optional string key = 3;</code>
      */
     public java.lang.String getKey() {
       java.lang.Object ref = key_;
@@ -509,7 +636,7 @@ public  final class MetricEvent extends
       }
     }
     /**
-     * <code>optional string key = 2;</code>
+     * <code>optional string key = 3;</code>
      */
     public com.google.protobuf.ByteString
         getKeyBytes() {
@@ -525,7 +652,7 @@ public  final class MetricEvent extends
       }
     }
     /**
-     * <code>optional string key = 2;</code>
+     * <code>optional string key = 3;</code>
      */
     public Builder setKey(
         java.lang.String value) {
@@ -538,7 +665,7 @@ public  final class MetricEvent extends
       return this;
     }
     /**
-     * <code>optional string key = 2;</code>
+     * <code>optional string key = 3;</code>
      */
     public Builder clearKey() {
       
@@ -547,7 +674,7 @@ public  final class MetricEvent extends
       return this;
     }
     /**
-     * <code>optional string key = 2;</code>
+     * <code>optional string key = 3;</code>
      */
     public Builder setKeyBytes(
         com.google.protobuf.ByteString value) {
@@ -563,7 +690,7 @@ public  final class MetricEvent extends
 
     private java.lang.Object value_ = "";
     /**
-     * <code>optional string value = 3;</code>
+     * <code>optional string value = 4;</code>
      */
     public java.lang.String getValue() {
       java.lang.Object ref = value_;
@@ -578,7 +705,7 @@ public  final class MetricEvent extends
       }
     }
     /**
-     * <code>optional string value = 3;</code>
+     * <code>optional string value = 4;</code>
      */
     public com.google.protobuf.ByteString
         getValueBytes() {
@@ -594,7 +721,7 @@ public  final class MetricEvent extends
       }
     }
     /**
-     * <code>optional string value = 3;</code>
+     * <code>optional string value = 4;</code>
      */
     public Builder setValue(
         java.lang.String value) {
@@ -607,7 +734,7 @@ public  final class MetricEvent extends
       return this;
     }
     /**
-     * <code>optional string value = 3;</code>
+     * <code>optional string value = 4;</code>
      */
     public Builder clearValue() {
       
@@ -616,7 +743,7 @@ public  final class MetricEvent extends
       return this;
     }
     /**
-     * <code>optional string value = 3;</code>
+     * <code>optional string value = 4;</code>
      */
     public Builder setValueBytes(
         com.google.protobuf.ByteString value) {

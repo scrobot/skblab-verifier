@@ -7,6 +7,7 @@ option java_multiple_files = true;
 
 message MetricEvent {
     int64 timestamp = 1;
-    string key = 2;
-    string value = 3;
+    string microservice = 2;
+    string key = 3;
+    string value = 4;
 }

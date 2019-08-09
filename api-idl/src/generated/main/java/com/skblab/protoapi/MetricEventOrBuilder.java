@@ -13,21 +13,31 @@ public interface MetricEventOrBuilder extends
   long getTimestamp();
 
   /**
-   * <code>optional string key = 2;</code>
+   * <code>optional string microservice = 2;</code>
+   */
+  java.lang.String getMicroservice();
+  /**
+   * <code>optional string microservice = 2;</code>
+   */
+  com.google.protobuf.ByteString
+      getMicroserviceBytes();
+
+  /**
+   * <code>optional string key = 3;</code>
    */
   java.lang.String getKey();
   /**
-   * <code>optional string key = 2;</code>
+   * <code>optional string key = 3;</code>
    */
   com.google.protobuf.ByteString
       getKeyBytes();
 
   /**
-   * <code>optional string value = 3;</code>
+   * <code>optional string value = 4;</code>
    */
   java.lang.String getValue();
   /**
-   * <code>optional string value = 3;</code>
+   * <code>optional string value = 4;</code>
    */
   com.google.protobuf.ByteString
       getValueBytes();

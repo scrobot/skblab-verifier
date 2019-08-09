@@ -1,14 +1,17 @@
 apply plugin: 'org.springframework.boot'
 apply plugin: 'com.bmuschko.docker-spring-boot-application'
 
-dependencies { 
- 
+dependencies {
+
+  implementation  'io.micrometer:micrometer-registry-influx',
+                  'com.github.miwurster:spring-data-influxdb:1.8',
+                  project(':api-idl')
 }
 
 docker {
   springBootApplication {
     baseImage = 'adoptopenjdk/openjdk8'
-//    ports = [4000, 9095]
-//    tag = "reactive-pacman-metrics-server:${project.version}"
+    ports = [4000, 9095]
+    tag = "skblab-verifier-metrics:${project.version}"
   }
 }

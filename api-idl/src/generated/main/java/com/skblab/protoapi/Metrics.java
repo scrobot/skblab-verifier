@@ -28,10 +28,10 @@ public final class Metrics {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rmetrics.proto\022\020com.skblab.proto\"<\n\013Met" +
-      "ricEvent\022\021\n\ttimestamp\030\001 \001(\003\022\013\n\003key\030\002 \001(\t" +
-      "\022\r\n\005value\030\003 \001(\tB\027\n\023com.skblab.protoapiP\001" +
-      "b\006proto3"
+      "\n\rmetrics.proto\022\020com.skblab.proto\"R\n\013Met" +
+      "ricEvent\022\021\n\ttimestamp\030\001 \001(\003\022\024\n\014microserv" +
+      "ice\030\002 \001(\t\022\013\n\003key\030\003 \001(\t\022\r\n\005value\030\004 \001(\tB\027\n" +
+      "\023com.skblab.protoapiP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -50,7 +50,7 @@ public final class Metrics {
     internal_static_com_skblab_proto_MetricEvent_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_skblab_proto_MetricEvent_descriptor,
-        new java.lang.String[] { "Timestamp", "Key", "Value", });
+        new java.lang.String[] { "Timestamp", "Microservice", "Key", "Value", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
