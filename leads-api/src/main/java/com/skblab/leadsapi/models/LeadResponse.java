@@ -1,6 +1,5 @@
 package com.skblab.leadsapi.models;
 
-import lombok.Data;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -9,7 +8,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ResponseBody
 public class LeadResponse {
 
-    public long requestId = 0;
-    public String email;
+    public final long requestId;
+    public final String email;
 
+    public LeadResponse(long requestId, String email) {
+        this.requestId = requestId;
+        this.email = email;
+    }
 }

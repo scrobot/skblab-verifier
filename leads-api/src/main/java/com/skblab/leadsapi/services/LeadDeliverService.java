@@ -31,7 +31,7 @@ public class LeadDeliverService {
                                 .build()
                         )
                         .build()
-        ).map(leadHandleResponse -> new LeadResponse());
+        ).map(response -> new LeadResponse(response.getRequestId(), response.getEmail()));
     }
 
 }

@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -27,30 +28,28 @@ public class LeadController {
     private LeadDeliverService service;
 
     @PostMapping("/api/register")
-    public Mono<LeadResponse> register(@RequestBody LeadRequest body) {
+    public Mono register(@RequestBody LeadRequest body) {
         return Mono.just(body)
                 .log()
                 .flatMap(lead -> {
-                    if(validator.hasErrors(lead)) {
+                    if (validator.hasErrors(lead)) {
                         return Mono.error(new ValidationException("lead has errors"));
                     }
 
                     return service.sendMessage(body);
                 })
+                .map(i -> new ResponseEntity<LeadResponse>(i, HttpStatus.OK))
                 .doOnError(throwable -> logger.error(throwable.getLocalizedMessage(), throwable))
                 .onErrorReturn(handleError(body));
     }
 
-    private ErrorLeadResponse handleError(@RequestBody LeadRequest body) {
-        return new ErrorLeadResponse(validator.getErrorMessages(body));
-    }
-
-    @ResponseStatus(
-            value = HttpStatus.UNPROCESSABLE_ENTITY,
-            reason = "Illegal arguments")
-    @ExceptionHandler(ValidationException.class)
-    public void illegalArgumentHandler() {
-
+    private ResponseEntity handleError(@RequestBody LeadRequest body) {
+        return new ResponseEntity<ErrorLeadResponse>(
+                new ErrorLeadResponse(
+                        validator.getErrorMessages(body)
+                ),
+                HttpStatus.UNPROCESSABLE_ENTITY
+        );
     }
 
 }

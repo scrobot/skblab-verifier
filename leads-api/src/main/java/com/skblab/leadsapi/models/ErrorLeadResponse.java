@@ -1,13 +1,11 @@
 package com.skblab.leadsapi.models;
 
-import lombok.Data;
-
 import java.util.List;
 
 /**
  * @author Alex Scrobot
  */
-public class ErrorLeadResponse extends LeadResponse {
+public class ErrorLeadResponse {
 
     public final List<String> errors;
 
