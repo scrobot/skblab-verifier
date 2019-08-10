@@ -1,6 +1,6 @@
 package com.skblab.leadsapi.validation;
 
-import com.skblab.leadsapi.models.LeadRequestBody;
+import com.skblab.leadsapi.models.LeadRequest;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -16,12 +16,12 @@ public class LeadRegisterValidator {
 
     private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
-    public Boolean hasErrors(LeadRequestBody requestBody) {
+    public Boolean hasErrors(LeadRequest requestBody) {
         return validator.validate(requestBody).size() > 0;
     }
 
-    public List<String> getErrorMessages(LeadRequestBody requestBody) {
-        Set<ConstraintViolation<LeadRequestBody>> violations = validator.validate(requestBody);
+    public List<String> getErrorMessages(LeadRequest requestBody) {
+        Set<ConstraintViolation<LeadRequest>> violations = validator.validate(requestBody);
 
         return violations.stream()
                 .map(ConstraintViolation::getMessage)

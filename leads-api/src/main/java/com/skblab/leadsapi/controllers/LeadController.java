@@ -1,7 +1,7 @@
 package com.skblab.leadsapi.controllers;
 
 import com.skblab.leadsapi.models.ErrorLeadResponse;
-import com.skblab.leadsapi.models.LeadRequestBody;
+import com.skblab.leadsapi.models.LeadRequest;
 import com.skblab.leadsapi.models.LeadResponse;
 import com.skblab.leadsapi.services.LeadDeliverService;
 import com.skblab.leadsapi.validation.LeadRegisterValidator;
@@ -27,7 +27,7 @@ public class LeadController {
     private LeadDeliverService service;
 
     @PostMapping("/api/register")
-    public Mono<LeadResponse> register(@RequestBody LeadRequestBody body) {
+    public Mono<LeadResponse> register(@RequestBody LeadRequest body) {
         return Mono.just(body)
                 .log()
                 .flatMap(lead -> {
@@ -35,13 +35,13 @@ public class LeadController {
                         return Mono.error(new ValidationException("lead has errors"));
                     }
 
-                    return service.sendMessage();
+                    return service.sendMessage(body);
                 })
                 .doOnError(throwable -> logger.error(throwable.getLocalizedMessage(), throwable))
                 .onErrorReturn(handleError(body));
     }
 
-    private ErrorLeadResponse handleError(@RequestBody LeadRequestBody body) {
+    private ErrorLeadResponse handleError(@RequestBody LeadRequest body) {
         return new ErrorLeadResponse(validator.getErrorMessages(body));
     }
 

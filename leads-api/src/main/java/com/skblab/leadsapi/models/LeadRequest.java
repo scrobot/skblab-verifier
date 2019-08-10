@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 /**
  * @author Alex Scrobot
  */
-public class LeadRequestBody {
+public class LeadRequest {
 
     @NotNull(message = "login cannot be null")
     private String login;
@@ -17,7 +17,7 @@ public class LeadRequestBody {
     private String email;
     private String fullname;
 
-    public LeadRequestBody() {}
+    public LeadRequest() {}
 
     public String getLogin() {
         return login;

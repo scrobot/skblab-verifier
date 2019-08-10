@@ -4,7 +4,6 @@ import com.skblab.protoapi.LeadHandleRequest;
 import com.skblab.protoapi.LeadHandleResponse;
 import com.skblab.protoapi.ReactorLeadRegistrationServiceGrpc;
 import org.lognet.springboot.grpc.GRpcService;
-import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 /**
@@ -15,6 +14,12 @@ public class MessagingService extends ReactorLeadRegistrationServiceGrpc.LeadReg
 
     @Override
     public Mono<LeadHandleResponse> send(Mono<LeadHandleRequest> request) {
-        return super.send(request);
+        return request.flatMap(r -> Mono.just(
+                LeadHandleResponse
+                        .newBuilder()
+                        .setEmail(r.getEmail())
+                        .setRequestId(100L)
+                        .build()
+        ));
     }
 }
