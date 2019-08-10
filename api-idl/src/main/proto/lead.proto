@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package com.skblab.proto;
+import "google/protobuf/wrappers.proto";
+
+option java_package = "com.skblab.protoapi";
+option java_multiple_files = true;
+
+message LeadHandleRequest {
+    string login = 1;
+    string password = 2;
+    string email = 3;
+    google.protobuf.StringValue fullname = 4;
+}
+
+message LeadHandleResponse {
+    int64 requestId = 1;
+    string email = 2;
+}

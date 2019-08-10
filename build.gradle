@@ -74,8 +74,6 @@ subprojects {
 		// declare spring boot starters
 		['org.springframework.boot:spring-boot-starter-webflux',
 		 'org.springframework.boot:spring-boot-starter-actuator',
-//		 'org.springframework.boot:spring-boot-starter-data-jpa',
-//		 'org.springframework.boot:spring-boot-starter-data-rest',
 		 'io.projectreactor.addons:reactor-extra',
 		 'com.google.guava:guava',
 		 'org.beryx:text-io',

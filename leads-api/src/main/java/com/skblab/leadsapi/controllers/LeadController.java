@@ -1,11 +1,16 @@
 package com.skblab.leadsapi.controllers;
 
+import com.skblab.leadsapi.models.ErrorLeadResponse;
 import com.skblab.leadsapi.models.LeadRequestBody;
 import com.skblab.leadsapi.models.LeadResponse;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import com.skblab.leadsapi.services.LeadDeliverService;
+import com.skblab.leadsapi.validation.LeadRegisterValidator;
+import com.skblab.leadsapi.validation.ValidationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 /**
@@ -14,9 +19,38 @@ import reactor.core.publisher.Mono;
 @RestController
 public class LeadController {
 
-    @PostMapping("register")
+    private final Logger logger = LoggerFactory.getLogger(LeadController.class);
+
+    private final LeadRegisterValidator validator = new LeadRegisterValidator();
+
+    @Autowired
+    private LeadDeliverService service;
+
+    @PostMapping("/api/register")
     public Mono<LeadResponse> register(@RequestBody LeadRequestBody body) {
-        return Mono.empty();
+        return Mono.just(body)
+                .log()
+                .flatMap(lead -> {
+                    if(validator.hasErrors(lead)) {
+                        return Mono.error(new ValidationException("lead has errors"));
+                    }
+
+                    return service.sendMessage();
+                })
+                .doOnError(throwable -> logger.error(throwable.getLocalizedMessage(), throwable))
+                .onErrorReturn(handleError(body));
+    }
+
+    private ErrorLeadResponse handleError(@RequestBody LeadRequestBody body) {
+        return new ErrorLeadResponse(validator.getErrorMessages(body));
+    }
+
+    @ResponseStatus(
+            value = HttpStatus.UNPROCESSABLE_ENTITY,
+            reason = "Illegal arguments")
+    @ExceptionHandler(ValidationException.class)
+    public void illegalArgumentHandler() {
+
     }
 
 }
