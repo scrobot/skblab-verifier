@@ -5,6 +5,7 @@ package com.skblab.proto;
 import "google/protobuf/empty.proto";
 import "metrics.proto";
 import "lead.proto";
+import "email.proto";
 
 option java_package = "com.skblab.protoapi";
 option java_multiple_files = true;
@@ -15,4 +16,8 @@ service MetricService {
 
 service LeadRegistrationService {
     rpc send(LeadHandleRequest) returns (LeadHandleResponse) {}
+}
+
+service EmailSenderService {
+    rpc sendLetter(EmailLetter) returns (google.protobuf.Empty) {}
 }

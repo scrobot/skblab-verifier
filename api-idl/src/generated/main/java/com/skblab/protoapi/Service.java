@@ -25,12 +25,15 @@ public final class Service {
     java.lang.String[] descriptorData = {
       "\n\rservice.proto\022\020com.skblab.proto\032\033googl" +
       "e/protobuf/empty.proto\032\rmetrics.proto\032\nl" +
-      "ead.proto2P\n\rMetricService\022?\n\004send\022\035.com" +
-      ".skblab.proto.MetricEvent\032\026.google.proto" +
-      "buf.Empty\"\0002n\n\027LeadRegistrationService\022S" +
-      "\n\004send\022#.com.skblab.proto.LeadHandleRequ" +
-      "est\032$.com.skblab.proto.LeadHandleRespons" +
-      "e\"\000B\027\n\023com.skblab.protoapiP\001b\006proto3"
+      "ead.proto\032\013email.proto2P\n\rMetricService\022" +
+      "?\n\004send\022\035.com.skblab.proto.MetricEvent\032\026" +
+      ".google.protobuf.Empty\"\0002n\n\027LeadRegistra" +
+      "tionService\022S\n\004send\022#.com.skblab.proto.L" +
+      "eadHandleRequest\032$.com.skblab.proto.Lead" +
+      "HandleResponse\"\0002[\n\022EmailSenderService\022E" +
+      "\n\nsendLetter\022\035.com.skblab.proto.EmailLet" +
+      "ter\032\026.google.protobuf.Empty\"\000B\027\n\023com.skb",
+      "lab.protoapiP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -46,10 +49,12 @@ public final class Service {
           com.google.protobuf.EmptyProto.getDescriptor(),
           com.skblab.protoapi.Metrics.getDescriptor(),
           com.skblab.protoapi.Lead.getDescriptor(),
+          com.skblab.protoapi.Email.getDescriptor(),
         }, assigner);
     com.google.protobuf.EmptyProto.getDescriptor();
     com.skblab.protoapi.Metrics.getDescriptor();
     com.skblab.protoapi.Lead.getDescriptor();
+    com.skblab.protoapi.Email.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

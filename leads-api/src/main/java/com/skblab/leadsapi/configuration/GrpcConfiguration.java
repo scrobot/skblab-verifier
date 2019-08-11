@@ -13,17 +13,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class GrpcConfiguration {
 
-    @Bean
-    public Channel configureChannel() {
-        val channelBuilder = ManagedChannelBuilder.forAddress("localhost", 9092);
+    private Channel configureChannel(int port) {
+        val channelBuilder = ManagedChannelBuilder.forAddress("localhost", port);
         channelBuilder.usePlaintext();
 
         return channelBuilder.build();
     }
 
     @Bean
-    public ReactorLeadRegistrationServiceGrpc.ReactorLeadRegistrationServiceStub stub(Channel channel) {
-        return ReactorLeadRegistrationServiceGrpc.newReactorStub(channel);
+    public ReactorLeadRegistrationServiceGrpc.ReactorLeadRegistrationServiceStub stub() {
+        return ReactorLeadRegistrationServiceGrpc.newReactorStub(configureChannel(9092));
     }
 
 }
