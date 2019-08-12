@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import java.time.Duration;
 import java.util.function.Supplier;
@@ -33,13 +34,15 @@ public class MessagingServiceImpl implements MessagingService {
 
     @Override
     public Mono<ApproveRequestId> send(long requestId, String login) {
-        return approveRequestServiceStub.initApproving(
-                ApproveRequest
-                        .newBuilder()
-                        .setRequestId(requestId)
-                        .setLogin(login)
-                        .build()
-        );
+        return approveRequestServiceStub
+                .initApproving(
+                    ApproveRequest
+                            .newBuilder()
+                            .setRequestId(requestId)
+                            .setLogin(login)
+                            .build()
+                )
+                .subscribeOn(Schedulers.elastic());
     }
 
     @Override
@@ -49,31 +52,32 @@ public class MessagingServiceImpl implements MessagingService {
                     .orElseThrow((Supplier<Throwable>) () ->
                             new Exception("Lead #" + response.getRequestId() + " was not found")
                     );
-            emailSenderServiceStub.sendLetter(
-                    Mono.just(lead)
-                            .map(l -> {
-                                if (response.getIsSuccess()) {
-                                    return new EmailLetterWrapper(
-                                            "You are verified!",
-                                            l.email,
-                                            "Your request #" + response.getRequestId() + " was passed verification"
-                                    );
-                                } else {
-                                    return new EmailLetterWrapper(
-                                            "You are not verified!",
-                                            l.email,
-                                            "Your request #" + response.getRequestId() + " was not passed verification"
-                                    );
-                                }
-                            })
-                            .map(wrapper -> EmailLetter
-                                    .newBuilder()
-                                    .setTopic(wrapper.getTopic())
-                                    .setRecipientAddress(wrapper.getAddress())
-                                    .setText(wrapper.getText())
-                                    .build()
-                            )
+                    emailSenderServiceStub.sendLetter(
+                            Mono.just(lead)
+                                    .map(l -> {
+                                        if (response.getIsSuccess()) {
+                                            return new EmailLetterWrapper(
+                                                    "You are verified!",
+                                                    l.email,
+                                                    "Your request #" + response.getRequestId() + " was passed verification"
+                                            );
+                                        } else {
+                                            return new EmailLetterWrapper(
+                                                    "You are not verified!",
+                                                    l.email,
+                                                    "Your request #" + response.getRequestId() + " was not passed verification"
+                                            );
+                                        }
+                                    })
+                                    .map(wrapper -> EmailLetter
+                                            .newBuilder()
+                                            .setTopic(wrapper.getTopic())
+                                            .setRecipientAddress(wrapper.getAddress())
+                                            .setText(wrapper.getText())
+                                            .build()
+                                    )
                     )
+                    .subscribeOn(Schedulers.elastic())
                     .retryBackoff(5, Duration.ofSeconds(1))
                     .doOnError(throwable -> log.error(throwable.getLocalizedMessage(), throwable))
                     .subscribe();
@@ -84,9 +88,10 @@ public class MessagingServiceImpl implements MessagingService {
 
     @Override
     public void subscribeOnInboxMessages() {
-        approveRequestServiceStub.receiveApprovingStatus(Empty.getDefaultInstance())
-                .retryBackoff(5, Duration.ofSeconds(1))
+        approveRequestServiceStub.receiveApprovingStatus(Mono.just(Empty.newBuilder().build()))
+                .retryBackoff(5, Duration.ofSeconds(5))
                 .doOnError(throwable -> log.error(throwable.getLocalizedMessage(), throwable))
+                .subscribeOn(Schedulers.single())
                 .subscribe(this::receive);
     }
 

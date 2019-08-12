@@ -22,10 +22,10 @@ public class LeadTask {
     private final Long requestId;
 
     @Column
-    private boolean isHandled = false;
+    private boolean handled = false;
 
     @Column
-    private boolean isApproved = false;
+    private boolean approved = false;
 
     @Column
     private final String login;

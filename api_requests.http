@@ -11,8 +11,8 @@ Content-Type: application/json
 
 {
   "login": "user",
-  "password": "test",
-  "email": "test@ya.com",
+  "password": "test1234",
+  "email": "skblab.verifier@gmail.com",
   "fullname": "Ivanov Ivan Petrovich"
 }
 

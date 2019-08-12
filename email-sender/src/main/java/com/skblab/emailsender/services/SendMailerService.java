@@ -5,6 +5,6 @@ import java.util.concurrent.TimeoutException;
 /**
  * @author Alex Scrobot
  */
-public interface SendMailer {
+public interface SendMailerService {
     void sendMail (String address, String topic, String text) throws TimeoutException;
 }

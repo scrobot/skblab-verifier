@@ -16,7 +16,7 @@ import java.time.Duration;
 public class GrpcSendMailerService extends ReactorEmailSenderServiceGrpc.EmailSenderServiceImplBase {
 
     @Autowired
-    private SendMailer sendMailer;
+    private SendMailerService sendMailerService;
 
     @Override
     public Mono<Empty> sendLetter(Mono<EmailLetter> request) {
@@ -24,7 +24,7 @@ public class GrpcSendMailerService extends ReactorEmailSenderServiceGrpc.EmailSe
                 .timeout(Duration.ofSeconds(10))
                 .flatMap(r ->
                         Mono.fromCallable(() -> {
-                            sendMailer.sendMail(r.getRecipientAddress(), r.getTopic(), r.getText());
+                            sendMailerService.sendMail(r.getRecipientAddress(), r.getTopic(), r.getText());
                             return Empty.getDefaultInstance();
                         }
                     )

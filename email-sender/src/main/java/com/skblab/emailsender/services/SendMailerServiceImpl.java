@@ -1,11 +1,10 @@
 package com.skblab.emailsender.services;
 
-import com.skblab.protoapi.ReactorEmailSenderServiceGrpc;
 import lombok.SneakyThrows;
-import org.lognet.springboot.grpc.GRpcService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,7 @@ import java.util.concurrent.TimeoutException;
  * @author Alex Scrobot
  */
 @Service
-public class SendMailerServiceImpl extends ReactorEmailSenderServiceGrpc.EmailSenderServiceImplBase implements SendMailer {
+public class SendMailerServiceImpl implements SendMailerService {
 
     @Autowired
     private JavaMailSender emailSender;
@@ -37,7 +36,14 @@ public class SendMailerServiceImpl extends ReactorEmailSenderServiceGrpc.EmailSe
         }
 
         // ok.
-        log.info(String.format("Message sent to %s, body %s.", "toAddress", ""));
+        log.info(String.format("Message sent to %s, body %s.", address, text));
+
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setSubject(topic);
+        simpleMailMessage.setTo(address);
+        simpleMailMessage.setText(text);
+
+        emailSender.send(simpleMailMessage);
     }
 
     @SneakyThrows

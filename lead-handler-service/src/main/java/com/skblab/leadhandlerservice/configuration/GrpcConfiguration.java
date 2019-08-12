@@ -4,6 +4,7 @@ import com.skblab.protoapi.ReactorApproveRequestServiceGrpc;
 import com.skblab.protoapi.ReactorEmailSenderServiceGrpc;
 import io.grpc.Channel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.netty.NettyChannelBuilder;
 import lombok.val;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 public class GrpcConfiguration {
 
     private Channel configureChannel(int port) {
-        val channelBuilder = ManagedChannelBuilder.forAddress("localhost", port);
+        val channelBuilder = NettyChannelBuilder.forAddress("localhost", port);
         channelBuilder.usePlaintext();
 
         return channelBuilder.build();
