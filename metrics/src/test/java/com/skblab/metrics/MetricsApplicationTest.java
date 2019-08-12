@@ -19,10 +19,11 @@ class MetricsApplicationTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    @Test
+// TODO: разкоментить тест, когда будет актуальна проверка актуатора
+    /*@Test
     void actuator() {
         ResponseEntity<String> response = restTemplate.getForEntity("/actuator", String.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
+    }*/
 
 }

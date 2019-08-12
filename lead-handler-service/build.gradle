@@ -6,9 +6,11 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 dependencies {
-  implementation "com.h2database:h2",
-                 project(':api-idl')
-
+  implementation project(':api-idl'),
+                 'org.springframework.boot:spring-boot-starter-data-jpa',
+                 'org.springframework.boot:spring-boot-starter-security'
+  
+  runtime "com.h2database:h2"
   runtimeClasspath 'org.springframework.boot:spring-boot-devtools'
 }
 

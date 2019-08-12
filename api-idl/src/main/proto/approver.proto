@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package com.skblab.proto;
+import "google/protobuf/wrappers.proto";
+
+option java_package = "com.skblab.protoapi";
+option java_multiple_files = true;
+
+message ApproveRequest {
+    int64 requestId = 1;
+    string login = 2;
+}
+
+message ApproveRequestId {
+    int64 correlationId = 1;
+}
+
+message ApproveResponse {
+    int64 requestId = 1;
+    bool isSuccess = 2;
+}

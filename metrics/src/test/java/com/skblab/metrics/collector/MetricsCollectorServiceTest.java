@@ -18,9 +18,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class MetricsCollectorServiceTest {
 
-    @Autowired
-    private TestRestTemplate restTemplate;
-
     @Test
     void send() {
         new MetricsCollectorService().send(MetricEvent.getDefaultInstance(), new StreamObserver<Empty>() {

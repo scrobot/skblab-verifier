@@ -10,9 +10,9 @@ POST http://localhost:8002/api/register
 Content-Type: application/json
 
 {
-  "login": "user",
-  "password": "test",
-  "email": "test@ya.com",
+  "login": "test",
+  "password": "test1234",
+  "email": "skblab.verifier@gmail.com",
   "fullname": "Ivanov Ivan Petrovich"
 }
 
