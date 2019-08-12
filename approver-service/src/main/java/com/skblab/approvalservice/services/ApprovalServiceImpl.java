@@ -35,7 +35,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 
     @Override
     public Flux<LeadTask> getNextTask() {
-        LeadTask task = repository.findFirstByHandledTrueAndHandledFalse();
+        LeadTask task = repository.findFirstByHandledFalse();
         return task == null ? Flux.just(LeadTask.empty()) : Flux.just(task);
     }
 

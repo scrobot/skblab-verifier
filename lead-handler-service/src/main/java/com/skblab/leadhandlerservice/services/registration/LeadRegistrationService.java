@@ -8,6 +8,13 @@ import com.skblab.protoapi.LeadHandleRequest;
  */
 public interface LeadRegistrationService {
 
+    /**
+     * Регистрирует заявку на последующую обработку
+     *
+     * @param request protobuff-модель с телом запроса
+     *
+     * @return mapped-модель созданную из параметра
+     * */
     Lead registerLead(LeadHandleRequest request);
 
 }

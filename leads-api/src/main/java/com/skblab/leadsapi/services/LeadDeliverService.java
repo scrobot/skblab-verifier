@@ -9,6 +9,13 @@ import reactor.core.publisher.Mono;
  */
 public interface LeadDeliverService {
 
-    public Mono<LeadResponse> sendMessage(LeadRequest request);
+    /**
+     * Отправка сообщения в систему обработки запросов, для ее валидации и регистрации
+     *
+     * @param request модель запроса регистрации заявки
+     *
+     * @return моно-Publisher с телом ответа
+     * */
+    Mono<LeadResponse> sendMessage(LeadRequest request);
 
 }
