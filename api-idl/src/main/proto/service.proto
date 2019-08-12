@@ -6,6 +6,7 @@ import "google/protobuf/empty.proto";
 import "metrics.proto";
 import "lead.proto";
 import "email.proto";
+import "approver.proto";
 
 option java_package = "com.skblab.protoapi";
 option java_multiple_files = true;
@@ -20,4 +21,9 @@ service LeadRegistrationService {
 
 service EmailSenderService {
     rpc sendLetter(EmailLetter) returns (google.protobuf.Empty) {}
+}
+
+service ApproveRequestService {
+    rpc initApproving(ApproveRequest) returns (ApproveRequestId) {}
+    rpc receiveApprovingStatus(google.protobuf.Empty) returns (stream ApproveResponse) {}
 }

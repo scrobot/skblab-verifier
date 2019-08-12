@@ -81,8 +81,6 @@ subprojects {
 			implementation it
 		}
 
-//		runtime "com.h2database:h2"
-
 		testImplementation 'org.mockito:mockito-core',
                 "org.assertj:assertj-core:3.11.1",
 				'org.mockito:mockito-junit-jupiter',

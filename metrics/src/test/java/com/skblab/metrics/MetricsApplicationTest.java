@@ -19,10 +19,10 @@ class MetricsApplicationTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    @Test
-    void actuator() {
-        ResponseEntity<String> response = restTemplate.getForEntity("/actuator", String.class);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
+//    @Test
+//    void actuator() {
+//        ResponseEntity<String> response = restTemplate.getForEntity("/actuator", String.class);
+//        assertEquals(HttpStatus.OK, response.getStatusCode());
+//    }
 
 }
